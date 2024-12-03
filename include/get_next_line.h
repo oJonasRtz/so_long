@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 11:30:36 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/03 13:45:27 by jopereir         ###   ########.fr       */
+/*   Created: 2024/10/15 11:33:52 by jopereir          #+#    #+#             */
+/*   Updated: 2024/10/28 13:01:20 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-# include "libft.h"
-# include "mlx.h"
-# include <X11/keysym.h>
+# include <unistd.h>
+# include <stdlib.h>
 
-typedef struct s_data
-{
-	int		fd;
-	int		map_height;
-	int		map_width;
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10000
+# endif
 
-	char	**map;
-
-	void	*mlx_ptr;
-	void	*win_ptr;
-
-	void	*player;
-	void	*collectables;
-	void	*ground;
-	void	*wall;
-	void	*enemy;
-}	t_data;
+char	*get_next_line(int fd);
+void	*ft_calloc(size_t nmemb, size_t size);
+char	*ft_strchr(char *s, int c);
+int		ft_strlen(char *s);
+char	*ft_strjoin(char *s1, char *s2);
 
 #endif

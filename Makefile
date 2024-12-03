@@ -6,14 +6,14 @@
 #    By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/18 11:11:14 by jopereir          #+#    #+#              #
-#    Updated: 2024/12/03 11:44:54 by jopereir         ###   ########.fr        #
+#    Updated: 2024/12/03 14:04:34 by jopereir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftsolong.a
 
 SRC_DIR = src
-SRCS = 
+SRCS = get_next_line.c get_next_line_utils.c
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 OBJ = $(SRC:.c=.o)
 HEADER = include
@@ -43,7 +43,7 @@ $(NAME): $(OBJ)
 	@echo "Creating $(NAME)."
 	@ar rcs $(NAME) $(OBJ)
 	@echo "Compiling main.c"
-	@$(CC) $(CFLAGS) $(SRC_DIR)/so_long.c -L. -lftsolong -lmlx -lX11 -lXext -lm -o $(PROGRAM)
+	@$(CC) $(CFLAGS) $(SRC_DIR)/main.c -L. -lftsolong -lmlx -lX11 -lXext -lm -o $(PROGRAM)
 	@$(MAKE) clean
 
 clean:
