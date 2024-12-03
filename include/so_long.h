@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 11:30:36 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/03 13:45:27 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/03 14:28:05 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,14 @@ typedef struct s_data
 	void	*wall;
 	void	*enemy;
 }	t_data;
+
+//	Game running
+int	game_create(t_data *data);
+int	game_step(t_data *data);
+int	game_destroy(t_data *data);
+
+//	Handle funtions
+int	handle_input(int keysym, t_data *data);
+int	handle_no_event(void);
 
 #endif
