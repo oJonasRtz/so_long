@@ -6,16 +6,19 @@
 #    By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/18 11:11:14 by jopereir          #+#    #+#              #
-#    Updated: 2024/12/02 11:30:03 by jopereir         ###   ########.fr        #
+#    Updated: 2024/12/03 11:44:54 by jopereir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftsolong.a
 
-SRC = 
+SRC_DIR = src
+SRCS = 
+SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 OBJ = $(SRC:.c=.o)
 HEADER = include
 LIBFT = libft
+MLX = minilibx-linux
 
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -I$(HEADER) -g
@@ -23,7 +26,7 @@ PROGRAM = so_long
 
 all: $(NAME)
 
-%.o: %.c
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
 	@echo "Compiling $<"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
@@ -32,8 +35,16 @@ $(NAME): $(OBJ)
 	@make -C $(LIBFT)
 	@cp libft/libft.a .
 	@mv libft.a $(NAME)
+		
+	@make -C $(MLX)
+	@cp minilibx-linux/libmlx.a .
+	@mv libmlx.a $(NAME)
+	
 	@echo "Creating $(NAME)."
 	@ar rcs $(NAME) $(OBJ)
+	@echo "Compiling main.c"
+	@$(CC) $(CFLAGS) $(SRC_DIR)/so_long.c -L. -lftsolong -lmlx -lX11 -lXext -lm -o $(PROGRAM)
+	@$(MAKE) clean
 
 clean:
 	@echo "Objects removed."
@@ -45,12 +56,8 @@ fclean: clean
 	@rm -f $(NAME)
 	@rm -f $(PROGRAM)
 	@make -C $(LIBFT) fclean
+	@make -C $(MLX) clean
 
 re: fclean all
-
-main: re
-	@echo "Compiling main.c"
-	@$(CC) $(CFLAGS) $(PROGRAM).c -L. -lftsolong -o $(PROGRAM)
-	@$(MAKE) clean
 
 .PHONY: all clean fclean re
