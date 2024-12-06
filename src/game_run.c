@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:21:39 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/06 11:34:19 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/06 11:55:32 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ static int	game_init(t_data *data, char *argv)
 		lines++;
 	close(fd);
 	fd = open(argv);
+	data->map = (char **)ft_calloc(lines + 1, sizeof(char *));
+	if (!data->map)
+		return (0);
 	data->map = get_next_line(fd);
 	close(fd);
 	return (lines);
