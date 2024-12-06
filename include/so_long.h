@@ -6,20 +6,24 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 11:30:36 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/03 14:28:05 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/06 11:33:42 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
+# define TILE 128
 
 # include "libft.h"
+# include "get_next_line.h"
 # include "mlx.h"
 # include <X11/keysym.h>
 
 typedef struct s_data
 {
 	int		fd;
+	int		win_height;
+	int		win_width;
 	int		map_height;
 	int		map_width;
 
@@ -36,7 +40,7 @@ typedef struct s_data
 }	t_data;
 
 //	Game running
-int	game_create(t_data *data);
+int	game_create(t_data *data, char *argv);
 int	game_step(t_data *data);
 int	game_destroy(t_data *data);
 
