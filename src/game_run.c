@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:21:39 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/09 13:57:27 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:18:26 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 */
 int	game_create(t_data *data, char *argv)
 {
-	data->map = read_map(argv);
+	data->map = read_map(argv, &data->lines);
+	ft_printf("linhas: %d\n", data->lines);
 	if (!data->map)
 		return (0);
 	ft_printf("Mapa lido com sucesso.\n");
@@ -25,8 +26,7 @@ int	game_create(t_data *data, char *argv)
 	if (!data->mlx_ptr)
 		return (0);
 	ft_printf("MLX iniciado\n");
-	data->win_ptr = mlx_new_window(data->mlx_ptr,
-			data->win_width, data->win_height, "so_long");
+	set_window(data);
 	ft_printf("Janela aberta com sucesso.\n");
 	if (!data->mlx_ptr)
 		return (0);

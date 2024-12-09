@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:48:32 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/09 14:01:58 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:17:04 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int	main(int argc, char *argv[])
 	if (argc != 2)
 		return (ft_printf("Too few argumments.\n"));
 	ft_printf("\nExcluir comentarios de Debug futuramente\n\n");
-	data.win_height = 200;
-	data.win_width = 200;
 	game_create(&data, argv[1]);
 	mlx_destroy_display(data.mlx_ptr);
 	free(data.mlx_ptr);

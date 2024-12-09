@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:16:11 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/09 14:04:13 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:12:53 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	get_lines(int fd)
 	return (lines);
 }
 
-char	**read_map(char *argv)
+char	**read_map(char *argv, int *line)
 {
 	char	**map;
 	int		i;
@@ -41,6 +41,7 @@ char	**read_map(char *argv)
 	if (fd == -1)
 		return (NULL);
 	lines = get_lines(fd);
+	*line = lines;
 	ft_printf("Linhas contadas com sucesso\n");
 	close (fd);
 	fd = open(argv, O_RDONLY);
