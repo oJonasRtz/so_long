@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 09:51:17 by jopereir          #+#    #+#             */
-/*   Updated: 2024/10/24 11:27:27 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:47:44 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "ft_printf.h"
+# include "get_next_line.h"
 
 typedef struct s_list
 {

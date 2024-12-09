@@ -6,20 +6,18 @@
 #    By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/18 11:11:14 by jopereir          #+#    #+#              #
-#    Updated: 2024/12/03 14:40:47 by jopereir         ###   ########.fr        #
+#    Updated: 2024/12/09 13:20:34 by jopereir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftsolong.a
 
 SRC_DIR = src
-SRCS = get_next_line.c get_next_line_utils.c game_run.c
+SRCS = game_run.c read_map.c
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 OBJ = $(SRC:.c=.o)
 HEADER = include
 LIBFT = libft
-MLX = minilibx-linux
-
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -I$(HEADER) -g
 PROGRAM = so_long
@@ -35,10 +33,6 @@ $(NAME): $(OBJ)
 	@make -C $(LIBFT)
 	@cp libft/libft.a .
 	@mv libft.a $(NAME)
-		
-	@make -C $(MLX)
-	@cp minilibx-linux/libmlx.a .
-	@mv libmlx.a $(NAME)
 	
 	@echo "Creating $(NAME)."
 	@ar rcs $(NAME) $(OBJ)
@@ -57,7 +51,6 @@ fclean: clean
 	@rm -f $(NAME)
 	@rm -f $(PROGRAM)
 	@make -C $(LIBFT) fclean
-	@make -C $(MLX) clean
 
 re: fclean all
 

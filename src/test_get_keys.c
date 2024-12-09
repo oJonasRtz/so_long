@@ -1,23 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   test_get_keys.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 11:30:36 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/09 13:50:53 by jopereir         ###   ########.fr       */
+/*   Created: 2024/12/09 11:48:33 by jopereir          #+#    #+#             */
+/*   Updated: 2024/12/09 12:42:31 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
-# define TILE 128
-
-# include "libft.h"
-# include "get_next_line.h"
-# include <fcntl.h>
-# include <mlx.h>
+#include <stdio.h>
+#include <mlx.h>
 
 typedef struct s_data
 {
@@ -27,7 +21,7 @@ typedef struct s_data
 	int		map_height;
 	int		map_width;
 
-	char	**map;
+	char	*map;
 
 	void	*mlx_ptr;
 	void	*win_ptr;
@@ -39,16 +33,33 @@ typedef struct s_data
 	void	*enemy;
 }	t_data;
 
-//	Game running
-int		game_create(t_data *data, char *argv);
-int		game_step(t_data *data);
-int		game_destroy(t_data *data);
+int	get_key(int keycode, void *param)
+{
+	(void)param;
+	printf("Keycode: %d\n", keycode);
+	return (0);
+}
 
-//	Handle funtions
-int		handle_input(int keysym, t_data *data);
-int		handle_no_event(void);
+int	game_end(t_data *data)
+{
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	return (0);
+}
 
-//	read_map
-char	**read_map(char *argv);
+/*
+	Get_keycodes, do not compile at the final project
 
-#endif
+		use only for tests
+*/
+int	main(void)
+{
+	t_data		data;
+
+	data.mlx_ptr = mlx_init();
+	data.win_ptr = mlx_new_window(data.mlx_ptr, 200, 200, "so_long");
+	mlx_key_hook(data.win_ptr, &get_key, &data);
+	mlx_hook(data.win_ptr, 17, 0, &game_end, &data);
+	mlx_loop(data.mlx_ptr);
+	mlx_destroy_display(data.mlx_ptr);
+	return (0);
+}
