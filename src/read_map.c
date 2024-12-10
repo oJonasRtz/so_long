@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:16:11 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/09 15:12:53 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:39:38 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int	get_lines(int fd)
 		temp = get_next_line(fd);
 	}
 	free(get_next_line(fd));
-	ft_printf("Contagem de linhas ok.\n");
 	return (lines);
 }
 
@@ -42,19 +41,19 @@ char	**read_map(char *argv, int *line)
 		return (NULL);
 	lines = get_lines(fd);
 	*line = lines;
-	ft_printf("Linhas contadas com sucesso\n");
+	ft_printf("Lines counted.\n");
 	close (fd);
 	fd = open(argv, O_RDONLY);
 	map = (char **)ft_calloc(lines + 1, sizeof(char *));
 	if (!map)
 		return (NULL);
-	ft_printf("Mapa alocado.\n");
+	ft_printf("Map alloc\n");
 	i = 0;
 	while (i < lines)
 		map[i++] = get_next_line(fd);
 	free(get_next_line(fd));
 	map[i] = NULL;
-	ft_printf("Lendo mapa...\n");
+	ft_printf("Loading map...\n");
 	close (fd);
 	return (map);
 }

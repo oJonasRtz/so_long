@@ -6,14 +6,14 @@
 #    By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/18 11:11:14 by jopereir          #+#    #+#              #
-#    Updated: 2024/12/09 15:19:22 by jopereir         ###   ########.fr        #
+#    Updated: 2024/12/10 14:15:22 by jopereir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftsolong.a
 
 SRC_DIR = src
-SRCS = game_run.c read_map.c render.c
+SRCS = game_run.c read_map.c render.c draw_text.c map_validation.c player.c
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 OBJ = $(SRC:.c=.o)
 HEADER = include

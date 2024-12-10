@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 15:08:05 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/09 17:11:29 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:19:52 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 	Counts how much letters has a string before the charset
 */
-static int	ft_strlen_char(char *str, char charset)
+int	ft_strlen_char(char *str, char charset)
 {
 	int	i;
 
@@ -25,15 +25,19 @@ static int	ft_strlen_char(char *str, char charset)
 	return (i);
 }
 
-void	set_window(t_data *data)
+int	set_window(t_data *data)
 {
 	data->win_width = TILE * ft_strlen_char(data->map[0], '\n');
 	data->win_height = TILE * data->lines;
 	data->win_ptr = mlx_new_window(data->mlx_ptr,
 			data->win_width, data->win_height, "so_long");
+	if (!data->win_ptr)
+		return (draw_text_int("Couldn't open the window.\n"));
+	ft_printf("Window successfully loaded.\n");
 	ft_printf("height: %d\nwidth: %d\n", data->win_height, data->win_width);
 	load_sprites(data);
 	render(data);
+	return (1);
 }
 
 void	load_sprites(t_data *data)
@@ -44,37 +48,42 @@ void	load_sprites(t_data *data)
 	height = 0;
 	width = 0;
 	data->ground = mlx_xpm_file_to_image(data->mlx_ptr,
-			"./textures/spr_ground.xpm", &width, &height);
+			"./textures/xpm/spr_ground_64.xpm", &width, &height);
 	data->wall = mlx_xpm_file_to_image(data->mlx_ptr,
-			"./textures/Wall.xpm", &width, &height);
+			"./textures/xpm/spr_wall.xpm", &width, &height);
 	data->player = mlx_xpm_file_to_image(data->mlx_ptr,
-			"./textures/spr_player.xpm", &width, &height);
+			"./textures/xpm/spr_fat_cat.xpm", &width, &height);
 	data->collectables = mlx_xpm_file_to_image(data->mlx_ptr,
-			"./textures/spr_collectable.xpm", &width, &height);
+			"./textures/xpm/spr_food.xpm", &width, &height);
 	data->exit = mlx_xpm_file_to_image(data->mlx_ptr,
-			"./textures/spr_exit_closed.xpm", &width, &height);
+			"./textures/xpm/spr_exit_closed.xpm", &width, &height);
+	ft_printf("Textures loaded.\n");
 }
 
 static void	switch_sprite(t_data *data, char c, int x, int y)
 {
+	void	*temp;
+
+	temp = NULL;
 	if (c == '0')
-		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->ground,
-			x, y);
+		temp = data->ground;
 	if (c == '1')
-		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->wall,
-			x, y);
+		temp = data->wall;
 	if (c == 'P')
-		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->player,
-			x, y);
+	{
+		temp = data->player;
+		data->x = x;
+		data->y = y;
+	}
 	if (c == 'C')
 	{
-		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
-			data->collectables, x, y);
-			data->collectables_cnt++;
+		temp = data->collectables;
+		data->collectables_cnt++;
 	}
 	if (c == 'E')
-		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
-			data->exit, x, y);
+		temp = data->exit;
+	if (temp)
+		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, temp, x, y);
 }
 
 void	render(t_data *data)
@@ -82,7 +91,6 @@ void	render(t_data *data)
 	int	i;
 	int	j;
 
-	data->collectables_cnt = 0;
 	i = 0;
 	while (data->map[i])
 	{
@@ -94,5 +102,6 @@ void	render(t_data *data)
 		}
 		i++;
 	}
+	ft_printf("x: %d\ny: %d\n", data->x, data->y);
 	ft_printf("Collectables: %d\n", data->collectables_cnt);
 }
