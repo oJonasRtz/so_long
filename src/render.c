@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 15:08:05 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/10 14:19:52 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:31:01 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ int	set_window(t_data *data)
 			data->win_width, data->win_height, "so_long");
 	if (!data->win_ptr)
 		return (draw_text_int("Couldn't open the window.\n"));
-	ft_printf("Window successfully loaded.\n");
-	ft_printf("height: %d\nwidth: %d\n", data->win_height, data->win_width);
 	load_sprites(data);
 	render(data);
 	return (1);
@@ -57,7 +55,6 @@ void	load_sprites(t_data *data)
 			"./textures/xpm/spr_food.xpm", &width, &height);
 	data->exit = mlx_xpm_file_to_image(data->mlx_ptr,
 			"./textures/xpm/spr_exit_closed.xpm", &width, &height);
-	ft_printf("Textures loaded.\n");
 }
 
 static void	switch_sprite(t_data *data, char c, int x, int y)
@@ -76,10 +73,7 @@ static void	switch_sprite(t_data *data, char c, int x, int y)
 		data->y = y;
 	}
 	if (c == 'C')
-	{
 		temp = data->collectables;
-		data->collectables_cnt++;
-	}
 	if (c == 'E')
 		temp = data->exit;
 	if (temp)
@@ -102,6 +96,4 @@ void	render(t_data *data)
 		}
 		i++;
 	}
-	ft_printf("x: %d\ny: %d\n", data->x, data->y);
-	ft_printf("Collectables: %d\n", data->collectables_cnt);
 }

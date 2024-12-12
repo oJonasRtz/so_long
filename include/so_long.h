@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 11:30:36 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/10 14:15:50 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:48:05 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,12 @@ typedef struct s_data
 	void	*exit;
 	void	*enemy;
 
+	int		icnt;
+	int		update;
+
 	int		x;
 	int		y;
+	int		moves;
 	int		collectables_cnt;
 }	t_data;
 
@@ -49,11 +53,11 @@ typedef struct s_data
 void	init_values(t_data *data);
 int		game_create(t_data *data, char *argv);
 int		game_step(t_data *data);
-int		game_destroy(t_data *data);
+int		game_destroy(t_data *data, char *message);
 
 //	Handle funtions
 int		handle_input(int keysym, t_data *data);
-int		handle_no_event(void);
+int		handle_no_event(t_data *data);
 
 //	Draw_text
 void	*draw_text_void(char *s);
@@ -61,7 +65,9 @@ int		draw_text_int(char *s);
 
 //	read_map
 char	**read_map(char *argv, int *line);
-int		map_is_valid(char **map);
+int		map_is_valid(t_data *data);
+int		is_all_one(char *line);
+int		first_and_last_is_one(char *line);
 
 //	Render
 int		set_window(t_data *data);

@@ -6,20 +6,20 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:21:39 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/10 13:46:18 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:01:51 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	free_map(char **map)
+static void	free_map(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (map[i])
-		free(map[i++]);
-	free(map);
+	while (data->map[i])
+		free(data->map[i++]);
+	free(data->map);
 }
 
 /*
@@ -27,28 +27,16 @@ static void	free_map(char **map)
 */
 int	game_create(t_data *data, char *argv)
 {
-	char	**temp;
-
-	temp = read_map(argv, &data->lines);
-	data->map = temp;
+	data->map = read_map(argv, &data->lines);
 	if (!data->map)
-		return (draw_text_int("Couldn't read the map.\n"));
-	if (!map_is_valid(data->map))
-	{
-		free_map(temp);
-		return (draw_text_int("Invalid map.\n"));
-	}
-	ft_printf("Map successfully loaded.\n");
+		game_destroy(data, "Error: Couldn't read the map.");
+	if (!map_is_valid(data))
+		game_destroy(data, "Error: Invalid map.");
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
-	{
-		free_map(temp);
-		return (draw_text_int("Error initializing MLX.\n"));
-	}
-	ft_printf("MLX initialized\n");
+		game_destroy(data, "Error: Couldn't initializing MLX.");
 	set_window(data);
 	game_step(data);
-	free_map(temp);
 	return (1);
 }
 
@@ -59,7 +47,6 @@ int	game_create(t_data *data, char *argv)
 */
 int	game_step(t_data *data)
 {
-	ft_printf("Looping(step)...\n");
 	mlx_loop_hook(data->mlx_ptr, &handle_no_event, data);
 	mlx_key_hook(data->win_ptr, &handle_input, data);
 	mlx_hook(data->win_ptr, 17, 0, &game_destroy, data);
@@ -81,24 +68,27 @@ static void	free_images(t_data *data)
 		mlx_destroy_image(data->mlx_ptr, data->exit);
 	if (data->enemy)
 		mlx_destroy_image(data->mlx_ptr, data->enemy);
-	init_values(data);
 }
 
 /*
 	Ends the game
 */
-int	game_destroy(t_data *data)
+int	game_destroy(t_data *data, char *message)
 {
 	if (data->win_ptr)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	free_images(data);
 	if (data->map)
-		free_map(data->map);
+		free_map(data);
 	if (data->mlx_ptr)
 	{
 		mlx_destroy_display(data->mlx_ptr);
 		free(data->mlx_ptr);
 	}
-	ft_printf("game destroy.\n");
-	return (0);
+	init_values(data);
+	if (message)
+		ft_printf("%s\n", message);
+	if (ft_strncmp(message, "!", 2) == 0)
+		ft_printf("Game closed by the player.\n");
+	exit (0);
 }

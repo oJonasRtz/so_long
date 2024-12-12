@@ -6,14 +6,22 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:48:32 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/10 15:50:22 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:48:47 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	handle_no_event(void)
+int	handle_no_event(t_data *data)
 {
+	data->icnt++;
+	if (data->icnt >= data->update)
+	{
+		ft_printf("Collectables: %d\n", data->collectables_cnt);
+		ft_printf("Player X: %d\nPlayer Y: %d\n", data->x, data->y);
+		ft_printf("Moves: %d\n", data->moves);
+		data->icnt = 0;
+	}
 	return (0);
 }
 
@@ -24,14 +32,14 @@ int	handle_input(int keysym, t_data *data)
 	int	up;
 	int	down;
 
-	right = key_pressed(keysym == 100);
-	left = key_pressed(keysym == 97);
-	up = key_pressed(keysym == 119);
-	down = key_pressed(keysym == 115);
+	right = keysym == 100;
+	left = keysym == 97;
+	up = keysym == 119;
+	down = keysym == 115;
 	if (keysym == 65307)
-		game_destroy(data);
+		game_destroy(data, "Game closed by the player.");
 	if (key_pressed(keysym))
-		move_player(data, right - left, up - down);
+		move_player(data, right - left, down - up);
 	return (0);
 }
 
@@ -55,6 +63,9 @@ void	init_values(t_data *data)
 	data->win_width = 0;
 	data->x = 0;
 	data->y = 0;
+	data->icnt = 0;
+	data->update = 100;
+	data->moves = 0;
 }
 
 int	main(int argc, char *argv[])
@@ -65,15 +76,11 @@ int	main(int argc, char *argv[])
 		return (ft_printf("Too few argumments.\n"));
 	init_values(&data);
 	if (!game_create(&data, argv[1]))
-	{
-		game_destroy(&data);
-		exit(1);
-	}
+		game_destroy(&data, "Coundn't initialize the game.");
 	if (data.mlx_ptr)
 	{
 		mlx_destroy_display(data.mlx_ptr);
 		free(data.mlx_ptr);
 	}
-	ft_printf("Game successfully closed!\n\n");
 	return (0);
 }
