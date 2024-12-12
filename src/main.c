@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:48:32 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/12 13:48:47 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:47:33 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,15 @@ int	handle_no_event(t_data *data)
 
 int	handle_input(int keysym, t_data *data)
 {
-	int	right;
-	int	left;
-	int	up;
-	int	down;
+	t_keys	keys;
 
-	right = keysym == 100;
-	left = keysym == 97;
-	up = keysym == 119;
-	down = keysym == 115;
 	if (keysym == 65307)
 		game_destroy(data, "Game closed by the player.");
 	if (key_pressed(keysym))
-		move_player(data, right - left, down - up);
+	{
+		keys = get_keys(keysym);
+		move_player(data, keys.right - keys.left, keys.down - keys.up);
+	}
 	return (0);
 }
 
@@ -64,8 +60,9 @@ void	init_values(t_data *data)
 	data->x = 0;
 	data->y = 0;
 	data->icnt = 0;
-	data->update = 100;
+	data->update = 1000;
 	data->moves = 0;
+	data->message = "!";
 }
 
 int	main(int argc, char *argv[])

@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 15:08:05 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/12 13:31:01 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:56:03 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ int	set_window(t_data *data)
 {
 	data->win_width = TILE * ft_strlen_char(data->map[0], '\n');
 	data->win_height = TILE * data->lines;
+	if (data->win_height > 1080 || data->win_width > 1920)
+		game_destroy(data, "Error: Map is too large.");
 	data->win_ptr = mlx_new_window(data->mlx_ptr,
 			data->win_width, data->win_height, "so_long");
 	if (!data->win_ptr)
-		return (draw_text_int("Couldn't open the window.\n"));
+		game_destroy(data, "Error: Couldn't open the window.");
 	load_sprites(data);
 	render(data);
 	return (1);

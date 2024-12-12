@@ -6,22 +6,22 @@
 #    By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/18 11:11:14 by jopereir          #+#    #+#              #
-#    Updated: 2024/12/12 12:49:24 by jopereir         ###   ########.fr        #
+#    Updated: 2024/12/12 16:44:50 by jopereir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libftsolong.a
+NAME = so_long
 
 SRC_DIR = src
-SRCS = game_run.c read_map.c render.c draw_text.c map_validation.c player.c \
+SRCS = game_run.c read_map.c render.c map_validation.c player.c \
 	map_validation_utils.c
+
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 OBJ = $(SRC:.c=.o)
 HEADER = include
 LIBFT = libft
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -I$(HEADER) -g
-PROGRAM = so_long
 
 all: $(NAME)
 
@@ -29,18 +29,13 @@ $(SRC_DIR)/%.o: $(SRC_DIR)/%.c
 	@echo "Compiling $<"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-#Creates libft.a. Copy to the current directory. Add libft.a to libprintf.a
-$(NAME): $(OBJ)
+$(LIBFT)/libft.a:
 	@make -C $(LIBFT)
-	@cp libft/libft.a .
-	@mv libft.a $(NAME)
-	
-	@echo "Creating $(NAME)."
-	@ar rcs $(NAME) $(OBJ)
-	
+
+#Creates libft.a. Copy to the current directory. Add libft.a to libprintf.a
+$(NAME): $(OBJ) $(LIBFT)/libft.a
 	@echo "Compiling main.c"
-	@$(CC) $(CFLAGS) $(SRC_DIR)/main.c -L. -lftsolong -lmlx -lX11 -lXext -lm -o $(PROGRAM)
-	@$(MAKE) clean
+	@$(CC) $(CFLAGS) $(SRC_DIR)/main.c $(OBJ) $(LIBFT)/libft.a -lmlx -lX11 -lXext -lm -o $(NAME)
 
 clean:
 	@echo "Objects removed."
@@ -50,7 +45,6 @@ clean:
 fclean: clean
 	@echo "$(NAME) removed."
 	@rm -f $(NAME)
-	@rm -f $(PROGRAM)
 	@make -C $(LIBFT) fclean
 
 re: fclean all

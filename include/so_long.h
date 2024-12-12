@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 11:30:36 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/12 13:48:05 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:56:20 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@
 # include "get_next_line.h"
 # include <fcntl.h>
 # include <mlx.h>
+
+typedef struct s_keys
+{
+	int	right;
+	int	left;
+	int	up;
+	int	down;
+}	t_keys;
 
 typedef struct s_data
 {
@@ -42,6 +50,7 @@ typedef struct s_data
 
 	int		icnt;
 	int		update;
+	char	*message;
 
 	int		x;
 	int		y;
@@ -59,10 +68,6 @@ int		game_destroy(t_data *data, char *message);
 int		handle_input(int keysym, t_data *data);
 int		handle_no_event(t_data *data);
 
-//	Draw_text
-void	*draw_text_void(char *s);
-int		draw_text_int(char *s);
-
 //	read_map
 char	**read_map(char *argv, int *line);
 int		map_is_valid(t_data *data);
@@ -78,5 +83,6 @@ int		ft_strlen_char(char *str, char charset);
 //	Movement
 void	move_player(t_data *data, int x_direction, int y_direction);
 int		key_pressed(int key);
+t_keys	get_keys(int key);
 
 #endif

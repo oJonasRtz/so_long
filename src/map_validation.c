@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:24:22 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/12 13:38:18 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:19:08 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static int	is_rectangular(t_data *data)
 	int	len;
 
 	i = 1;
-	len = ft_strlen_char(data->map[0], '\n');
+	len = ft_strlen(data->map[0]);
 	while (data->map[i])
 	{
-		if (ft_strlen_char(data->map[i], '\n') != len)
+		if (ft_strlen(data->map[i]) != len)
 			return (0);
 		i++;
 	}
