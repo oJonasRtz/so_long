@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:48:32 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/12 15:47:33 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:41:18 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ int	handle_no_event(t_data *data)
 	data->icnt++;
 	if (data->icnt >= data->update)
 	{
+		ft_printf("Screen_x: %d Screen_y: %d\n",
+			data->screen_width, data->screen_height);
+		ft_printf("Hight: %d Width: %d\n", data->win_height, data->win_width);
 		ft_printf("Collectables: %d\n", data->collectables_cnt);
 		ft_printf("Player X: %d\nPlayer Y: %d\n", data->x, data->y);
 		ft_printf("Moves: %d\n", data->moves);
@@ -60,9 +63,11 @@ void	init_values(t_data *data)
 	data->x = 0;
 	data->y = 0;
 	data->icnt = 0;
-	data->update = 1000;
+	data->update = 2000;
 	data->moves = 0;
 	data->message = "!";
+	data->screen_height = 0;
+	data->screen_width = 0;
 }
 
 int	main(int argc, char *argv[])
@@ -70,14 +75,11 @@ int	main(int argc, char *argv[])
 	t_data	data;
 
 	if (argc != 2)
-		return (ft_printf("Too few argumments.\n"));
+		return (ft_printf("Error: Invalid number of arguments.\n"));
+	if (TILE != 64)
+		return (ft_printf("Error: Tile doesn't match.\n"));
 	init_values(&data);
 	if (!game_create(&data, argv[1]))
 		game_destroy(&data, "Coundn't initialize the game.");
-	if (data.mlx_ptr)
-	{
-		mlx_destroy_display(data.mlx_ptr);
-		free(data.mlx_ptr);
-	}
 	return (0);
 }

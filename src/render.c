@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 15:08:05 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/12 15:56:03 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:40:49 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	set_window(t_data *data)
 {
 	data->win_width = TILE * ft_strlen_char(data->map[0], '\n');
 	data->win_height = TILE * data->lines;
-	if (data->win_height > 1080 || data->win_width > 1920)
+	mlx_get_screen_size(data->mlx_ptr,
+		&data->screen_width, &data->screen_height);
+	if (data->win_height > data->screen_height
+		|| data->win_width > data->screen_width)
 		game_destroy(data, "Error: Map is too large.");
 	data->win_ptr = mlx_new_window(data->mlx_ptr,
 			data->win_width, data->win_height, "so_long");
@@ -66,18 +69,20 @@ static void	switch_sprite(t_data *data, char c, int x, int y)
 	temp = NULL;
 	if (c == '0')
 		temp = data->ground;
-	if (c == '1')
+	else if (c == '1')
 		temp = data->wall;
-	if (c == 'P')
+	else if (c == 'P')
 	{
 		temp = data->player;
 		data->x = x;
 		data->y = y;
 	}
-	if (c == 'C')
+	else if (c == 'C')
 		temp = data->collectables;
-	if (c == 'E')
+	else if (c == 'E')
 		temp = data->exit;
+	else if (c != '\n')
+		game_destroy(data, "Error: Invalid element on map.");
 	if (temp)
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, temp, x, y);
 }

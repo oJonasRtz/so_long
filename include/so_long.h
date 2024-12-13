@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 11:30:36 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/12 15:56:20 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:37:31 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct s_data
 	int		fd;
 	int		win_height;
 	int		win_width;
+	int		screen_height;
+	int		screen_width;
 	int		map_height;
 	int		map_width;
 

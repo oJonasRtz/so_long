@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:21:39 by jopereir          #+#    #+#             */
-/*   Updated: 2024/12/12 13:01:51 by jopereir         ###   ########.fr       */
+/*   Updated: 2024/12/13 10:34:14 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,11 @@ int	game_destroy(t_data *data, char *message)
 		free(data->mlx_ptr);
 	}
 	init_values(data);
-	if (message)
-		ft_printf("%s\n", message);
+	if (!message)
+		exit (0);
 	if (ft_strncmp(message, "!", 2) == 0)
 		ft_printf("Game closed by the player.\n");
+	else
+		ft_printf("%s\n", message);
 	exit (0);
 }
